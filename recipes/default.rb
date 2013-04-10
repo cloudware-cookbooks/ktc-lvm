@@ -65,5 +65,6 @@ end
 
 execute "vgchange --clustered y cinder-volumes" do
   ignore_failure true
+  action :nothing
   only_if node['lvm']['vg']['clustered']
 end
