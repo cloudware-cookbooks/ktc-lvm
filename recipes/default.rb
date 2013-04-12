@@ -55,11 +55,14 @@ execute "lvmconf --enable-cluster" do
 end
 
 node['lvm']['vg']['pvs'].each do |pv|
-  lvm_physical_volume pv
+  lvm_physical_volume pv do
+    ignore_failure true
+  end
 end
 
 lvm_volume_group node['lvm']['vg']['name'] do
   physical_volumes node['lvm']['vg']['pvs']
+  ignore_failure true
   notifies :run, "execute[vgchange --clustered y cinder-volumes]", :immediately
 end
 
