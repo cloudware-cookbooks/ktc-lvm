@@ -42,15 +42,15 @@ cookbook_file "/etc/init.d/clvm" do
   group "root"
   mode 0755
   action :nothing
-  notifies :restart, "service[clvm]", :immediately
-end
-
-service "clvm" do
-  action :nothing
   notifies :run, "execute[lvmconf --enable-cluster]", :immediately
 end
 
 execute "lvmconf --enable-cluster" do
+  action :nothing
+  notifies :restart, "service[clvm]", :immediately
+end
+
+service "clvm" do
   action :nothing
 end
 
